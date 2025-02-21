@@ -19,7 +19,7 @@ export default function HomePage() {
 
   const joinRoom = () => {
     if (roomId.trim()) {
-      router.push(`/room/${roomId}?player=p2`);
+      router.push(`/room/${roomId}`);
     }
   };
 
