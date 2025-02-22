@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { io } from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,10 +11,22 @@ const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:4000")
 export default function GameRoom() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
   const roomId = pathname.split("/").pop();
   const player = searchParams.get("player");
   const isOverview = !player;
+  let backgroundColor = searchParams.get("bg") || "white";
+  const fontSize = searchParams.get("size") || "9xl";
+
+  useEffect(() => {
+  // Ensure it starts with "#" (if it’s a valid hex code)
+  if (!backgroundColor.startsWith("#") && /^[0-9A-F]{6}$/i.test(backgroundColor)) {
+    backgroundColor = `#${backgroundColor}`;
+  }
+  document.body.style.backgroundColor = backgroundColor;
+    return () => {
+      document.body.style.backgroundColor = "transparent";
+    };
+  }, [backgroundColor]);
 
   const [p1Life, setP1Life] = useState(null);
   const [p2Life, setP2Life] = useState(null);
@@ -53,11 +65,11 @@ export default function GameRoom() {
   };
 
   if (p1Life === null || p2Life === null) {
-    return <div className="flex justify-center items-center h-screen bg-white text-black">Loading room state...</div>;
+    return <div className="flex justify-center items-center h-screen text-black">Loading room state...</div>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-4 bg-white text-black">
+    <div className="flex flex-col items-center justify-center h-screen p-4 text-black">
       {isOverview ? (
         <>
           <h1 className="text-3xl font-bold mb-4">MTG Life Counter</h1>
@@ -81,8 +93,8 @@ export default function GameRoom() {
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center h-screen bg-white text-black">
-          <h1 className="text-9xl font-bold">{player === "p1" ? p1Life : p2Life}</h1>
+        <div className="flex items-center justify-center h-screen text-black">
+          <h1 className={`font-bold`} style={{ fontSize: fontSize }}>{player === "p1" ? p1Life : p2Life}</h1>
         </div>
       )}
     </div>
