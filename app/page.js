@@ -14,7 +14,7 @@ export default function HomePage() {
 
   const createRoom = () => {
     const newRoomId = Math.random().toString(36).substring(2, 8);
-    router.push(`/room/${newRoomId}`);
+    router.push(`/room/${newRoomId}?bg=ffffff&size=200px&fontcolor=black`);
   };
 
   const joinRoom = () => {

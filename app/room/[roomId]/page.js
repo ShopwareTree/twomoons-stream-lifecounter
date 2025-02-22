@@ -15,6 +15,7 @@ export default function GameRoom() {
   const player = searchParams.get("player");
   const isOverview = !player;
   let backgroundColor = searchParams.get("bg") || "white";
+  let fontColor = searchParams.get("fontcolor") || "white";
   const fontSize = searchParams.get("size") || "9xl";
 
   useEffect(() => {
@@ -87,14 +88,14 @@ export default function GameRoom() {
             </div>
           </div>
           <div className="mt-6">
-            <Link href={`/room/${roomId}?player=p1`} className="text-blue-600 underline">Join as Player 1</Link>
+            <Link href={`/room/${roomId}?player=p1&bg=ffffff&size=200px&fontcolor=black`} className="text-blue-600 underline">Join as Player 1</Link>
             <br />
-            <Link href={`/room/${roomId}?player=p2`} className="text-blue-600 underline">Join as Player 2</Link>
+            <Link href={`/room/${roomId}?player=p2&bg=ffffff&size=200px&fontcolor=black`} className="text-blue-600 underline">Join as Player 2</Link>
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center h-screen text-black">
-          <h1 className={`font-bold`} style={{ fontSize: fontSize }}>{player === "p1" ? p1Life : p2Life}</h1>
+        <div className="flex items-center justify-center h-screen">
+          <h1 className={`font-bold`} style={{ fontSize: fontSize, color: fontColor }}>{player === "p1" ? p1Life : p2Life}</h1>
         </div>
       )}
     </div>
